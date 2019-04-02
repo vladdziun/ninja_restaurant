@@ -12,7 +12,12 @@ namespace buffet
             // vlad.Attack(dima);
             // vlad.Attack(dima);
             Buffet myBuffet = new Buffet();
-            Console.WriteLine(myBuffet.Serve().Name);
+            // Console.WriteLine(Buffet.Serve().Name);
+            Ninja vlad = new Ninja();
+            vlad.Eat();
+            vlad.Eat();
+            vlad.Eat();
+            Console.WriteLine(vlad.Calories);
 
         }
     }
@@ -37,7 +42,7 @@ namespace buffet
 
     class Buffet
     {
-        public List<Food> Menu;
+        public static List<Food> Menu;
 
         //constructor
         public Buffet()
@@ -51,10 +56,52 @@ namespace buffet
         };
         }
 
-        public Food Serve()
+        public static Food Serve()
         {
             Random rand = new Random();
             return Menu[rand.Next(Menu.Count)];
+        }
+    }
+
+    class Ninja
+    {
+        private int calorieIntake;
+        public int Calories
+        {
+            get {return calorieIntake;}
+        }
+        public List<Food> FoodHistory;
+        public bool IsFull
+        {
+            get
+            {
+                if (calorieIntake > 1200)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        public Ninja()
+        {
+            calorieIntake = 0;
+            FoodHistory = new List<Food>();
+        }
+
+        // add a public "getter" property called "IsFull"
+
+        // build out the Eat method
+        public void Eat()
+        {
+            if (!IsFull)
+            {
+                Food foodToServe = Buffet.Serve();
+                calorieIntake = foodToServe.Calories;
+                FoodHistory.Add(foodToServe);
+                Console.WriteLine(foodToServe.Name+" "+ foodToServe.IsSpicy);
+            }
+            else
+                Console.WriteLine("I am full!");
         }
     }
 }
